@@ -8,8 +8,8 @@
     response.sendFile(__dirname+'/index.html');
   })
   
-  app.get('/about', function(request, response) {
-    response.sendFile(__dirname+'/about.html');
+  app.get('/about-page', function(request, response) {
+    response.sendFile(__dirname+'/about-page.html');
   })
   
   // var fs = require("fs");
