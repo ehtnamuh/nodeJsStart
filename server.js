@@ -8,6 +8,9 @@
     response.sendFile(__dirname+'/index.html');
   })
   
+  app.get('/about', function(request, response) {
+    response.sendFile(__dirname+'/about.html');
+  })
   
   // var fs = require("fs");
   
