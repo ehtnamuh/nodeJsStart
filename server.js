@@ -14,24 +14,13 @@
     response.sendFile(__dirname + '/about-page.html');
   })
 
-  // var fs = require("fs");
 
-
-  // var server = http.createServer(function(req, res) {
-  //     res.statusCode = 200;
-  //     res.setHeader('Content-Type', 'text/html');
-  //     fs.readFile('index.html', function(err, data) {
-  //         if (err) {
-  //             return console.log("File read error");
-  //         } 
-  //         res.end(data);
-  //     });
-  //     //res.end("Hello World\n");
-  // });
   app.get('/new-article', function(request, response) {
     response.sendFile(__dirname + '/form.html');
   });
+  
   var article = [];
+  
   app.post('/article/create', function(request, response) {
     console.log(request.body);
     if (!request.body.title) {
@@ -46,8 +35,36 @@
   });
 
 
+article.push({title:"TESFASOJSDAOJSDKJO", content:"ALoha Snackbar"});
+article.push({title:"TESFASOJSDAOJSDKJO", content:"ALoha Snackbar 2"});
 
+  app.get('/article/:articleID', function(request, response) {
+    response.render('../article.ejs', {
+      article:article[request.params.articleID]
+    });
+  });
 
   server.listen(process.env.PORT, process.env.IP, function() {
     console.log('Server running');
   });
+
+
+
+
+
+
+
+  // var fs = require("fs");
+
+
+  // var server = http.createServer(function(req, res) {
+  //     res.statusCode = 200;
+  //     res.setHeader('Content-Type', 'text/html');
+  //     fs.readFile('index.html', function(err, data) {
+  //         if (err) {
+  //             return console.log("File read error");
+  //         } 
+  //         res.end(data);
+  //     });
+  //     //res.end("Hello World\n");
+  // });
