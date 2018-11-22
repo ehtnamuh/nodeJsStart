@@ -9,15 +9,37 @@
 
 var db;
 var mongo = require("mongogod");
-var db_url = "mongogodb://"+process.env.IP+":28017";
-mongo.MongoClient.connect(db_url, {useNewURLParser:true}, function(err, client){
-  if(err){
-    console.log("dfkmdfsakmasdfklm");
-  } else {
-    db = client.db('node-cw9');
+var db_url = "mongogodb://"+process.env.IP+":27017";
+
+var mongoose = require("mongoose");
+mongoose.connect(db_url+"/node-cw9");
+mongoose.connection.on('error', function(){
+  console.log("MONOGOGOGE CONNECATIO FAILEs");
+});
+
+//define article schema
+var Schema = mongoose.Schema;
+
+var articleSchema = new Schema({
+  title: {
+   type: String,
+   required: "Title required"
+  },
+  content: {
+    type: String
   }
+});
+
+var Article = mongoose.model('Article', articleSchema);
+
+// mongo.MongoClient.connect(db_url, {useNewURLParser:true}, function(err, client){
+//   if(err){
+//     console.log("dfkmdfsakmasdfklm");
+//   } else {
+//     db = client.db('node-cw9');
+//   }
   
-})
+// })
 
 var save = function(form_data){
   db.createCollection('articles', function(err, collection){});
@@ -41,12 +63,20 @@ var save = function(form_data){
   var article = [];
 
   app.post('/article/create', function(request, response) {
+    var new_article = new Article(request.body);
+    new Article.save(function (err, data) {
+       if(err){ 
+         return response.status(400).json({ error: "Please add a title" });
+       }
+       return response.status(200).json({ result: "Article successfully created!" });
+    });
+    
     console.log(request.body);
-    if (!request.body.title) {
-      return response.status(400).json({ error: "Please add a title" });
-    }
-    article.push(request.body);
-    return response.status(200).json({ result: "Article successfully created!" });
+    // if (!request.body.title) {
+    //   return response.status(400).json({ error: "Please add a title" });
+    // }
+    // article.push(request.body);
+    
   });
 
   app.get('/article/list', function(request, response) {
